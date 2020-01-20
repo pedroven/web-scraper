@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Web Scraper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #eee;
+            font-family: sans-serif;
+        }
+        header {
+            background-color: #054f77;
+            width: 100%;
+            padding: 15px 0;
+        } 
+        header a {
+            text-decoration: none;
+        }
+        header a h1 {
+            color: #fff;
+            letter-spacing: 10px;
+            text-align: center;
+            font-weight: lighter;
+            font-size: 22px;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        form input[type="search"] {
+            padding: 10px 20px;
+            width: 320px;
+            border: 0.5px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            margin-left: 10px;
+            background-color: #054f77;
+            color: #fff;
+            font-weight: bold;
+            padding: 0 10px;
+            border: 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #036499;
+        }
+        ul {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+            align-items: center;
+        }
+        li {
+            background-color: #fff;
+            list-style: none;
+            padding: 20px 30px;
+            width: 400px;
+            border: 0.5px solid #999;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        li p {
+            font-weight: bold;
+            font-size: 20px;
+            color: #054f77;
+        }
+        li a {
+            font-size: 15px;
+            line-height: 15px;
+            color: #036499;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'scrap:index' %}">
+            <h1>WEB SCRAPER</h1>
+        </a>
+    </header>
+    <main>
+        <form action="{% url 'scrap:search' %}">
+            <input type="search" name="q"><br>
+            <button type="submit">Pesquisar notícias</button>
+        </form>
+        <ul>
+            {% for new in news %}
+                <li>
+                    <p>
+                        {{new.0}}
+                    </p>
+                    <a href="{{new.2}}">Saiba mais</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>

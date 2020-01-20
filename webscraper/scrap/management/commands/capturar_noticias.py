@@ -18,15 +18,18 @@ class Command(BaseCommand):
 
         data = {
             'Headlines': [],
-            'News_content': []
+            'News_content': [],
+            'URL_content': [],
         }
 
         headlines = soup.find_all('a', class_='tec--carousel__item__title__link')
+
 
         for headline in headlines:
             data['Headlines'].append(headline.get_text())
             
             content_url = headline.get('href')
+            data['URL_content'].append(content_url)
             content_page = requests.get(content_url)
             
             soup = BeautifulSoup(content_page.content, 'html.parser')
@@ -45,13 +48,16 @@ class Command(BaseCommand):
         conn = sqlite3.connect('db.sqlite3')
         cursor = conn.cursor()
         cursor.execute("""
-            CREATE TABLE contents(Headlines, News_content)
+            DROP TABLE IF EXISTS contents
+        """)
+        cursor.execute("""
+            CREATE TABLE contents(Headlines, News_content, URL_content)
         """)
 
         for row in table.itertuples():
             insert_table = """
-            INSERT INTO contents(Headlines, News_content) \
-            VALUES (?,?)
+            INSERT INTO contents(Headlines, News_content, URL_content) \
+            VALUES (?,?,?)
         """
             cursor.execute(insert_table, row[1:])
 
